@@ -1,0 +1,36 @@
+{
+  "name": "gilho_toy_project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/GilHo-Roh/gilho_toy_project.git",
+  "author": "GilHo-Roh <rgh5102@naver.com>",
+  "license": "MIT",
+  "scripts": {
+    "build:server": "esbuild --bundle src/server/index.ts --outfile=build/server.js --platform=node --external:pg-native",
+    "build:client": "esbuild --bundle src/client/index.tsx --outfile=build/client.js",
+    "watch:server": "esbuild --bundle src/server/index.ts --outfile=build/server.js --platform=node --external:pg-native --watch",
+    "watch:client": "esbuild --bundle src/client/index.tsx --outfile=build/client.js --watch",
+    "server": "nodemon build/server.js"
+  },
+  "dependencies": {
+    "koa": "^2.13.4",
+    "koa-bodyparser": "^4.3.0",
+    "koa-mount": "^4.0.0",
+    "koa-router": "^12.0.0",
+    "koa-static": "^5.0.0",
+    "nodemon": "^2.0.19",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "slonik": "^29.0.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.13.5",
+    "@types/koa-bodyparser": "^4.3.7",
+    "@types/koa-router": "^7.4.4",
+    "@types/koa-static": "^4.0.2",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "esbuild": "^0.14.51",
+    "typescript": "^4.7.4"
+  }
+}
