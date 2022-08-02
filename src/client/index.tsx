@@ -1,9 +1,11 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom/client';
+import * as React from 'react'
+import * as ReactDOM from 'react-dom/client'
+import App from './App'
 
-function Hello(props) {
-  return <h1>Client: Hello World!</h1>;
-}
+const rootNode = document.getElementById('root')
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<Hello />);
+ReactDOM.createRoot(rootNode!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+)
