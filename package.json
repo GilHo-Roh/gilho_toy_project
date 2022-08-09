@@ -13,6 +13,7 @@
     "server": "nodemon build/server.js"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
     "koa-mount": "^4.0.0",

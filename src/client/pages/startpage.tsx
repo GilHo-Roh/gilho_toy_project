@@ -3,7 +3,7 @@ import React = require("react")
 const Startpage = () => {
   return (
     <>
-    <h1>hello this is gilho's toy project</h1>
+    <h1>Hello this is gilho's toy project</h1>
     <h2>if you have account</h2>
       <a href = 'Signin'>
       <button type = "button"

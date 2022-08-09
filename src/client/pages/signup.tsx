@@ -1,6 +1,11 @@
 import React = require("react")
+import { useState } from "react"
 
 const Signup = () => {
+  const [id, setId] = useState('')
+  const [pw, setPw] = useState('')
+  const [pwCheck, setPwCheck] = useState('')
+  
   return (
     <>
     <form>
