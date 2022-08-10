@@ -1,11 +1,11 @@
-import {createPool, sql,} from 'slonik'
+import {createPool, sql, type DatabaseConnection} from 'slonik'
 
-const pool = createPool('postgres://')
+const pool = createPool('postgres://') //뒤에 들어가야할 로컬호스트 주소 추가
 
+//create table
 
-//sample example
-pool.connect( async (connection) =>{
-  await pool.query(sql`ELECT id FROM foo`)
-})
+//connect table
 
+//find key
 
+//insert key
