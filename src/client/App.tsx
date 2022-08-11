@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import Startpage from "./pages/startpage"
 import Signin from "./pages/signin"
 import Signup from "./pages/signup"
+import Mainpage from './pages/mainpage';
 
 function LoginForm(props){
   return (
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/clienttest" element={<LoginForm />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/mainpage" element={<Mainpage />}/>
       </Routes>
     </Router>
   )

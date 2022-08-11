@@ -6,13 +6,14 @@ import fs = require('fs')
 const bodyParser = require('koa-bodyparser')
 
 const app = new Koa();
+app.use(bodyParser())
 const router = new Router()
 
 let userInfo = [
-	{ id: 101, email: 'kim@test.com', password: '1234' },
-	{ id: 102, email: 'lee@test.com', password: '5678' },
-	{ id: 103, email: 'choi@test.com', password: '1357' },
-	{ id: 101, email: 'park@test.com', password: '2468' }
+	{ email: 'kim@test.com', password: '1234' },
+	{ email: 'lee@test.com', password: '5678' },
+	{ email: 'choi@test.com', password: '1357' },
+	{ email: 'park@test.com', password: '2468' }
 ];
 
 
@@ -29,11 +30,25 @@ router.get('/api/hello', async(ctx,next)=>{
 
 //make server api
 router.post('/api/signin', async(ctx,next)=>{
-  var res = false
+
   const { user_id, user_pw } = ctx.request.body
-  const user = userInfo.filter(data => data.email == user_id && data.password == user_pw);
-  console.log(user)
+  const user = userInfo.filter(data => data.email == user_id && data.password == user_pw)
   ctx.body = {ok: true, user:user}
+
+  await next()
+})
+
+router.post('/api/signup', async(ctx,next)=>{
+  const { user_id, user_pw } = ctx.request.body
+
+  const user = userInfo.filter(data => data.email == user_id)
+  if (user.length == 0){
+    userInfo.push({email:user_id, password:user_pw})
+    ctx.body = {ok: true}
+  }
+  else{
+    ctx.body = {ok: false}
+  }
   await next()
 })
 

@@ -1,27 +1,54 @@
 import React = require("react")
 import { useState } from "react"
+import { emailChecker, SignupChecker } from "./loginchecker"
+import { useNavigate } from "react-router-dom"
 
 const Signup = () => {
   const [id, setId] = useState('')
   const [pw, setPw] = useState('')
   const [pwCheck, setPwCheck] = useState('')
+  const navi = useNavigate()
+
+  const checkSignup = async (id, pw, pwCheck) =>{
+    
+    if(!emailChecker(id)){
+      alert('fail 1')
+    }
+    else if (pw != pwCheck){
+      alert('fail 2')
+    }
+    else {
+      if (await SignupChecker(id, pw)){
+        alert('success')
+        navi('/Signin')
+      }
+      else{
+        setId('')
+        setPw('')
+        setPwCheck('')
+        alert('fail 3')
+      }
+    }
+  }
   
   return (
     <>
     <form>
       <label>Email:
-        <input type = "text"/>
+        <input type = "text"
+         onChange={e => setId(e.target.value)}/>
       </label>
       <label>Password:
-        <input type = "password"/>
+        <input type = "password"
+         onChange={e => setPw(e.target.value)}/>
       </label>
       <label>Password Check:
-        <input type = "password"/>
+        <input type = "password"
+         onChange={e => setPwCheck(e.target.value)}/>
       </label>
-        <a href = 'Signin'>
         <button type = "button"
+        onClick = {()=> checkSignup(id, pw, pwCheck)}
         >Sign up!</button>
-        </a>
     </form>
     </>
   )

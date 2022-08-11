@@ -1,11 +1,13 @@
 import React = require("react")
-import axios from "axios"
 
-export const ServerChecker = (id, pw) => {
+export const SigninChecker = async(id, pw) => {
   //query string
-  console.log(id,pw)
-  fetch('http://localhost:3000/api/signin', {
+  var check = false
+  await fetch('http://localhost:3000/api/signin', {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({
         user_id: id,
         user_pw: pw,
@@ -14,16 +16,38 @@ export const ServerChecker = (id, pw) => {
   })
   .then(res => res.json())
   .then(res =>{
-    if (res.ok){
-      return true
+    if (res.user.length == 1){
+      check = true
     }
   })
   
-  return false
+  return check
+}
+
+export const SignupChecker = async(id, pw) => {
+  //query string
+  var check = false
+  await fetch('http://localhost:3000/api/signup', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        user_id: id,
+        user_pw: pw,
+        batch: 1
+    })
+  })
+  .then(res => res.json())
+  .then(res =>{
+    check = res.ok
+  })
+  
+  return check
 }
 
 export const emailChecker = (id) => {
-  return false
+  return true
 }
 
 export const passwordChecker = (pw) => {

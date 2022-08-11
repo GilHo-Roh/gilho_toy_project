@@ -1,7 +1,7 @@
 import React = require("react")
 import { useState } from "react"
 import { useNavigate } from 'react-router-dom'
-import {ServerChecker} from './loginchecker'
+import {SigninChecker} from './loginchecker'
 
 
 const Signin = () => {
@@ -9,8 +9,9 @@ const Signin = () => {
   const [pw, setPw] = useState('')
   const navi = useNavigate()
 
-  const checkLogin = (id, pw) => {
-    if (ServerChecker(id, pw)){
+  const checkLogin = async (id, pw) => {
+
+    if (await SigninChecker(id, pw)){
       alert('success')
       navi('/Mainpage')
     }
