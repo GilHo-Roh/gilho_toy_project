@@ -1,7 +1,7 @@
 import React = require("react")
 import { useState } from "react"
 import { useNavigate } from 'react-router-dom'
-import {DBChecker} from './loginchecker'
+import {ServerChecker} from './loginchecker'
 
 
 const Signin = () => {
@@ -9,8 +9,8 @@ const Signin = () => {
   const [pw, setPw] = useState('')
   const navi = useNavigate()
 
-  const Checker = (id, pw) => {
-    if (DBChecker(id, pw)){
+  const checkLogin = (id, pw) => {
+    if (ServerChecker(id, pw)){
       alert('success')
       navi('/Mainpage')
     }
@@ -33,7 +33,7 @@ const Signin = () => {
         onChange={e => setPw(e.target.value)}/>
       </label>
       <button type = 'button' 
-      onClick = {()=> Checker(id, pw)}>
+      onClick = {()=> checkLogin(id, pw)}>
       Sign in!</button>
     </form>
     </>
