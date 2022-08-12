@@ -1,11 +1,26 @@
-import {createPool, sql, type DatabaseConnection} from 'slonik'
+import { useState } from 'react'
+import { createPool, sql, type DatabaseConnection } from 'slonik'
 
-const pool = createPool('postgres://') //뒤에 들어가야할 로컬호스트 주소 추가
-
-//create table
+export const pool = createPool(
+  'postgresql://postgres:password@localhost:6544/gilho_toy_project'
+)
 
 //connect table
+export const signinDB = (email: string) =>
+  pool.connect(async (connection) => {
+    const result = await connection.query(sql`SELECT * 
+                                            FROM user_info
+                                            WHERE email=${email}`)
 
-//find key
+    if (result.rowCount === 0) {
+      throw new Error('Resource not found.')
+    }
 
-//insert key
+    return result.rows[0]
+  })
+
+export const signupDB = (email: string, password: string) =>
+  pool.connect(async (connection) => {
+    const result = await connection.query(sql`INSERT INTO user_info
+                                              VALUES (${email}, ${password})`)
+  })

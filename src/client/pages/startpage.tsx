@@ -1,18 +1,16 @@
-import React = require("react")
+import React = require('react')
 
 const Startpage = () => {
   return (
     <>
-    <h1>Hello this is gilho's toy project</h1>
-    <h2>if you have account</h2>
-      <a href = 'Signin'>
-      <button type = "button"
-      >Sign in</button>
+      <h1>Hello this is gilho's toy project</h1>
+      <h2>if you have account</h2>
+      <a href="Signin">
+        <button type="button">Sign in</button>
       </a>
-    <h2>if you do not have account</h2>
-      <a href = 'Signup'>
-      <button type = "button"
-      >Sign up</button>
+      <h2>if you do not have account</h2>
+      <a href="Signup">
+        <button type="button">Sign up</button>
       </a>
     </>
   )
