@@ -2,10 +2,11 @@ import React = require('react')
 
 export const SigninChecker = async (id, pw) => {
   //query string
-  var check = false
-  await fetch('http://localhost:3000/api/signin', {
+
+  return await fetch('http://localhost:3000/api/signin', {
     method: 'POST',
     headers: {
+      'Set-Cookie': 'cookie=test',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -15,13 +16,7 @@ export const SigninChecker = async (id, pw) => {
     }),
   })
     .then((res) => res.json())
-    .then((res) => {
-      if (res.ok) {
-        check = true
-      }
-    })
-
-  return check
+    .then((res) => res.ok)
 }
 
 export const SignupChecker = async (id, pw) => {

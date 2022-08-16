@@ -1,6 +1,6 @@
 import React = require('react')
 
-const Startpage = () => {
+const StartPage = () => {
   return (
     <>
       <h1>Hello this is gilho's toy project</h1>
@@ -16,4 +16,4 @@ const Startpage = () => {
   )
 }
 
-export default Startpage
+export default StartPage
