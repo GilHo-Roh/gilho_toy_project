@@ -13,6 +13,7 @@ export const signinDB = (email: string) =>
                                             WHERE email=${email}`)
 
     if (result.rowCount === 0) {
+      console.log(email)
       throw new Error('Resource not found.')
     }
 
@@ -21,14 +22,14 @@ export const signinDB = (email: string) =>
 
 export const signupDB = (email: string, password: string) =>
   pool.connect(async (connection) => {
-    const result = await connection.query(sql`INSERT INTO user_info
-                                              VALUES (${email}, ${password})`)
+    await connection.query(sql`INSERT INTO user_info
+                               VALUES (${email}, ${password})`)
   })
 
 export const saveArticle = (email: string, name: string, article: string) =>
   pool.connect(async (connection) => {
-    const result = await connection.query(sql`INSERT INTO article
-                                              VALUES (${email}, ${name}, ${article})`)
+    await connection.query(sql`INSERT INTO article
+                               VALUES (${email}, ${name}, ${article})`)
   })
 
 export const loadArticle = (name: string) =>
@@ -54,4 +55,10 @@ export const loadAll = () =>
     }
 
     return result.rows
+  })
+
+export const removeArticle = (name: string) =>
+  pool.connect(async (connection) => {
+    await connection.query(sql`DELETE FROM article
+                               WHERE title=${name}`)
   })

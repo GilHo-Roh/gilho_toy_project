@@ -1,6 +1,10 @@
 import React = require('react')
 import { useState } from 'react'
-import { emailChecker, SignupChecker } from '../utility/loginchecker'
+import {
+  emailChecker,
+  passwordChecker,
+  SignupChecker,
+} from '../utility/loginchecker'
 import { useNavigate } from 'react-router-dom'
 
 const Signup = () => {
@@ -11,18 +15,20 @@ const Signup = () => {
 
   const checkSignup = async (id, pw, pwCheck) => {
     if (!emailChecker(id)) {
-      alert('fail 1')
+      alert('invalid email!')
+    } else if (!passwordChecker(pw)) {
+      alert('invalid password!')
     } else if (pw != pwCheck) {
-      alert('fail 2')
+      alert('password different!')
     } else {
       if (await SignupChecker(id, pw)) {
-        alert('success')
+        alert('success sign up!')
         navi('/Signin')
       } else {
         setId('')
         setPw('')
         setPwCheck('')
-        alert('fail 3')
+        alert('this account is alread exist!')
       }
     }
   }

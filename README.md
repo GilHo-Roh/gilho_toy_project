@@ -1,31 +1,101 @@
-# gilho_toy_project
-make simple board
+# Gilho_toy_project
 
-# function
+Make simple board project
 
-## login 
-- email and password
+# Function and spec
 
-## password
-- not plane word >> bcrypt
+## sign in
 
-## in session
-- cookie >> get access token JWT
+- input email and password
+- connect server and database
+- check information
 
-## after login
-- write short sentence
-- can remove
-- order latest
+## sign up
 
-# what to use
+- check email and password validation
+- check email duplication
+- save database (password need to crypt)
+
+## write article
+
+- write title, contents
+- save on database
+- title is unique!
+
+## read article
+
+- in main page we can see all articles title (login state)
+- click title, readpage can get title and show it
+
+## delete article
+
+- server check writer and client user
+- decode JWT cookie
+- if they are same, delete. otherwise is shouldn't
+
+## keeping login in session
+
+- when login, server set JWT in cookies (HttpOnly)
+- HttpOnly cookie >> client can not access
+- client always ask to server (useEffect)
+- server decode email and send user information to client
+
+# Development tool
+
 - Typescript
-- Koa
 - React
+- Koa
 - yarn
 - esbuild
 - github
 - REST API
+- bcrypt
+- jsonwebtoken(JWT)
 
-# etc
-- make good coed
-- make lesson that I learned
+# New information
+
+## yarn lock
+
+- package version control(lock)
+
+## esbuild
+
+- faster builder
+- 100x faster then web pack
+- Go and JS
+
+## bcrypt
+
+- kind of crypt function
+- we can control security and speed
+
+## SSR, Static Rendering
+
+## Authentication
+
+- COOKIE + JWT :
+- Session :
+- LocalStorage :
+
+## package.json
+
+### 1. dependencies
+
+- Packages required by your application in production.
+
+### 2. devDependencies
+
+- Packages that are only needed for local development and testing.
+- ex) @types/~~ : I use typescript on this project. Thus when add new library package,
+  need to check new types. @types/~ can check their types but do not need in production.
+
+# Lessons I learned
+
+## new language
+
+- I handle react first and koa js
+- It is very powerful tools to make web
+
+## new function
+
+## code convention

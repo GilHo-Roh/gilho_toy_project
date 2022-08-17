@@ -1,4 +1,5 @@
 import React = require('react')
+import { useNavigate } from 'react-router-dom'
 
 const StartPage = () => {
   return (

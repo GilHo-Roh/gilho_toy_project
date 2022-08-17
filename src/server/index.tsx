@@ -2,12 +2,17 @@ import Koa = require('koa')
 import Router = require('koa-router')
 import serve = require('koa-static')
 import fs = require('fs')
+import bcrypt = require('bcryptjs')
+import { generateToken, checkToken } from './jwt'
+const saltRounds = 10
+
 import {
   loadAll,
   loadArticle,
   saveArticle,
   signinDB,
   signupDB,
+  removeArticle,
 } from './database'
 
 const bodyParser = require('koa-bodyparser')
@@ -31,19 +36,21 @@ router.get('/api/hello', async (ctx, next) => {
 //make server api
 router.post('/api/signin', async (ctx, next) => {
   const { user_id, user_pw } = ctx.request.body
-
+  console.log(user_id, user_pw)
   const res = await signinDB(user_id)
-    .then((result) => result.password === user_pw)
-    .catch((err) => false)
 
-  ctx.cookies.set('jwt', 'token', {
-    httpOnly: true,
-    secure: false,
-    sameSite: 'none',
-    secureProxy: true,
-  })
+  const isValid = await bcrypt.compare(user_pw, res.password as string)
+  if (isValid) {
+    const token = generateToken(user_id)
+    ctx.cookies.set('jwt', token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'none',
+      secureProxy: true,
+    })
+  }
 
-  ctx.body = { ok: res }
+  ctx.body = { ok: isValid }
 
   await next()
 })
@@ -56,7 +63,14 @@ router.post('/api/signup', async (ctx, next) => {
     .catch((err) => true)
 
   if (res) {
-    await signupDB(user_id, user_pw)
+    bcrypt.hash(user_pw, saltRounds, async function (err, cryptedPassword) {
+      if (err) {
+        ctx.body = { ok: false }
+      } else {
+        console.log(cryptedPassword)
+        await signupDB(user_id, cryptedPassword)
+      }
+    })
   }
 
   ctx.body = { ok: res }
@@ -84,8 +98,6 @@ router.post('/api/submit', async (ctx, next) => {
 router.post('/api/read', async (ctx, next) => {
   const { title } = ctx.request.body
 
-  console.log(ctx.cookies.get('jwt'))
-
   await loadArticle(title)
     .then((res) => {
       ctx.body = { ok: true, result: res }
@@ -100,6 +112,41 @@ router.get('/api/articles', async (ctx, next) => {
   await loadAll().then((result) => {
     ctx.body = { ok: true, res: result }
   })
+  await next()
+})
+
+router.post('/api/remove', async (ctx, next) => {
+  const { title } = ctx.request.body
+  const token = ctx.cookies.get('jwt')
+  const user = checkToken(token)
+
+  await loadArticle(title).then((result) => {
+    if (result.email == user) {
+      removeArticle(title)
+      ctx.body = { ok: true }
+    } else {
+      ctx.body = { ok: false }
+    }
+  })
+  await next()
+})
+
+router.get('/api/auth', async (ctx, next) => {
+  const token = ctx.cookies.get('jwt')
+  //console.log(token)
+  if (token != undefined) {
+    const decode = checkToken(token)
+    //console.log(decode)
+    ctx.body = { ok: true, res: decode }
+  } else {
+    ctx.body = { ok: false, res: undefined }
+  }
+  await next()
+})
+
+router.get('/api/logout', async (ctx, next) => {
+  ctx.cookies.set('jwt', undefined)
+  ctx.body = { ok: true }
   await next()
 })
 

@@ -6,7 +6,6 @@ export const SigninChecker = async (id, pw) => {
   return await fetch('http://localhost:3000/api/signin', {
     method: 'POST',
     headers: {
-      'Set-Cookie': 'cookie=test',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -42,9 +41,11 @@ export const SignupChecker = async (id, pw) => {
 }
 
 export const emailChecker = (id) => {
-  return true
+  const regex = /^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/
+  return regex.test(id)
 }
 
 export const passwordChecker = (pw) => {
-  return true
+  const regex = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/
+  return regex.test(pw)
 }
