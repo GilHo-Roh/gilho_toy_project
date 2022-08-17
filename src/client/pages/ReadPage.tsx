@@ -24,6 +24,7 @@ const ReadPage = () => {
         if (res.ok) {
           alert('remove article success')
           navigation('/mainpage')
+          window.location.reload()
         } else {
           alert('permission denied')
         }
