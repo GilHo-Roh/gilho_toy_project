@@ -1,6 +1,6 @@
 import React = require('react')
 
-export const SigninChecker = async (id, pw) => {
+export const SigninChecker = async (id: string, pw: string) => {
   //query string
 
   return await fetch('http://localhost:3000/api/signin', {
@@ -18,7 +18,7 @@ export const SigninChecker = async (id, pw) => {
     .then((res) => res.ok)
 }
 
-export const SignupChecker = async (id, pw) => {
+export const SignupChecker = async (id: string, pw: string) => {
   //query string
   var check = false
   await fetch('http://localhost:3000/api/signup', {
@@ -40,12 +40,12 @@ export const SignupChecker = async (id, pw) => {
   return check
 }
 
-export const emailChecker = (id) => {
-  const regex = /^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/
-  return regex.test(id)
+export const emailChecker = (id: string) => {
+  const emailRegex = /^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/
+  return emailRegex.test(id)
 }
 
-export const passwordChecker = (pw) => {
-  const regex = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/
-  return regex.test(pw)
+export const passwordChecker = (pw: string) => {
+  const passwordRegex = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/
+  return passwordRegex.test(pw)
 }

@@ -1,10 +1,9 @@
 import React = require('react')
-import { useNavigate } from 'react-router-dom'
 
 const StartPage = () => {
   return (
     <>
-      <h1>Hello this is gilho's toy project</h1>
+      <h2>Hello this is gilho's toy project</h2>
       <h2>if you have account</h2>
       <a href="Signin">
         <button type="button">Sign in</button>

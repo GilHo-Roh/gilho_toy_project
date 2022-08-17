@@ -3,7 +3,7 @@ import jwt = require('jsonwebtoken')
 const SECRET_KEY = 'gilho_toy_project'
 
 export const generateToken = (email: string) => {
-  const token = jwt.sign({ id: email }, SECRET_KEY, {
+  const token = jwt.sign({ email: email }, SECRET_KEY, {
     expiresIn: '1d',
   })
 
@@ -13,7 +13,7 @@ export const generateToken = (email: string) => {
 export const checkToken = (token: string) => {
   try {
     const decode = jwt.verify(token, SECRET_KEY)
-    return decode.id
+    return decode.email
   } catch (err) {
     return undefined
   }

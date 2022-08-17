@@ -6,7 +6,7 @@ export const pool = createPool(
 )
 
 //connect table
-export const signinDB = (email: string) =>
+export const getAccount = (email: string) =>
   pool.connect(async (connection) => {
     const result = await connection.query(sql`SELECT * 
                                             FROM user_info
@@ -20,7 +20,7 @@ export const signinDB = (email: string) =>
     return result.rows[0]
   })
 
-export const signupDB = (email: string, password: string) =>
+export const saveAccount = (email: string, password: string) =>
   pool.connect(async (connection) => {
     await connection.query(sql`INSERT INTO user_info
                                VALUES (${email}, ${password})`)
@@ -35,8 +35,8 @@ export const saveArticle = (email: string, name: string, article: string) =>
 export const loadArticle = (name: string) =>
   pool.connect(async (connection) => {
     const result = await connection.query(sql`SELECT * 
-                                            FROM article
-                                            WHERE title=${name}`)
+                                              FROM article
+                                              WHERE title=${name}`)
 
     if (result.rowCount === 0) {
       throw new Error('Resource not found.')
@@ -45,14 +45,10 @@ export const loadArticle = (name: string) =>
     return result.rows[0]
   })
 
-export const loadAll = () =>
+export const loadAllArticle = () =>
   pool.connect(async (connection) => {
     const result = await connection.query(sql`SELECT title, email
-                                            FROM article`)
-
-    if (result.rowCount === 0) {
-      throw new Error('Resource not found.')
-    }
+                                              FROM article`)
 
     return result.rows
   })

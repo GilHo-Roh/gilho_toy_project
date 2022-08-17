@@ -11,9 +11,9 @@ const Signup = () => {
   const [id, setId] = useState('')
   const [pw, setPw] = useState('')
   const [pwCheck, setPwCheck] = useState('')
-  const navi = useNavigate()
+  const navigation = useNavigate()
 
-  const checkSignup = async (id, pw, pwCheck) => {
+  const checkSignup = async (id: string, pw: string, pwCheck: string) => {
     if (!emailChecker(id)) {
       alert('invalid email!')
     } else if (!passwordChecker(pw)) {
@@ -23,7 +23,7 @@ const Signup = () => {
     } else {
       if (await SignupChecker(id, pw)) {
         alert('success sign up!')
-        navi('/Signin')
+        navigation('/Signin')
       } else {
         setId('')
         setPw('')

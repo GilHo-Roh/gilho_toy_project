@@ -6,17 +6,17 @@ import { SigninChecker } from '../utility/loginchecker'
 const Signin = ({ setUser }: { setUser: (email: string) => void }) => {
   const [id, setId] = useState('')
   const [pw, setPw] = useState('')
-  const navi = useNavigate()
+  const navigation = useNavigate()
 
   const checkLogin = async (id, pw) => {
     if (await SigninChecker(id, pw)) {
       setUser(id)
-      alert('success')
-      navi('/Mainpage')
+      alert('login success')
+      navigation('/Mainpage')
     } else {
       setId('')
       setPw('')
-      alert('fail')
+      alert('login fail')
     }
   }
 

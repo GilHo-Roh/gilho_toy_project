@@ -6,7 +6,7 @@ const ReadPage = () => {
   const { title } = useParams()
   const [user, setUser] = useState('')
   const [contents, setContents] = useState('')
-  const navi = useNavigate()
+  const navigation = useNavigate()
 
   const deleteArticle = async (title: string) => {
     await fetch('http://localhost:3000/api/remove', {
@@ -23,14 +23,14 @@ const ReadPage = () => {
       .then((res) => {
         if (res.ok) {
           alert('remove article success')
-          navi('/mainpage')
+          navigation('/mainpage')
         } else {
-          alert('can not remove article')
+          alert('permission denied')
         }
       })
   }
 
-  const getContent = async (title: string) => {
+  const getArticle = async (title: string) => {
     await fetch('http://localhost:3000/api/read', {
       method: 'POST',
       headers: {
@@ -50,14 +50,14 @@ const ReadPage = () => {
       })
   }
   React.useEffect(() => {
-    getContent(title)
+    getArticle(title)
   }, [])
 
   return (
     <>
-      <h3>user: {user}</h3>
+      <h4>writer: {user}</h4>
       <h3>title: {title}</h3>
-      <h3>article: {contents}</h3>
+      <h3>{contents}</h3>
       <button type="button" onClick={() => deleteArticle(title)}>
         Delete!
       </button>

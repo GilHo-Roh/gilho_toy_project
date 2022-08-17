@@ -9,26 +9,25 @@ function Article({ article }) {
   )
 }
 
-const Mainpage = ({
+const MainPage = ({
   articles,
 }: {
   articles: { title: string; email: string }[]
 }) => {
-  //console.log(articles)
-  const navi = useNavigate()
+  const navigation = useNavigate()
   return (
     <>
       <h2>welcome to main page</h2>
-      <div>
+      <div className="article">
         {articles.map((user) => (
           <Article article={user} key={user.title} />
         ))}
       </div>
-      <button type="button" onClick={() => navi('/Writepage')}>
+      <button type="button" onClick={() => navigation('/Writepage')}>
         Write!
       </button>
     </>
   )
 }
 
-export default Mainpage
+export default MainPage

@@ -3,12 +3,12 @@ import React = require('react')
 import { useNavigate } from 'react-router-dom'
 
 const WritePage = ({ user }: { user: string }) => {
-  const [name, setName] = useState('')
-  const [article, setArticle] = useState('')
+  const [title, setTitle] = useState('')
+  const [contents, setContents] = useState('')
   const navi = useNavigate()
 
-  const submitArticle = async (name, article) => {
-    console.log(name, article, user)
+  const submitArticle = async (title: string, contents: string) => {
+    console.log(title, contents, user)
     await fetch('http://localhost:3000/api/submit', {
       method: 'POST',
       headers: {
@@ -16,39 +16,40 @@ const WritePage = ({ user }: { user: string }) => {
       },
       body: JSON.stringify({
         user_id: user,
-        title: name,
-        article: article,
+        title: title,
+        article: contents,
         batch: 1,
       }),
     })
       .then((res) => res.json())
       .then((res) => {
         if (res.ok) {
-          alert('success')
+          alert('writing success')
           navi('/Mainpage')
+          window.location.reload()
         } else {
-          alert('fail')
+          alert('writing fail')
         }
       })
   }
 
   return (
     <>
-      <h2>welcome to main page</h2>
+      <h2>write your article!</h2>
       <p>
         <label>
           Title:
-          <input type="text" onChange={(e) => setName(e.target.value)} />
+          <input type="text" onChange={(e) => setTitle(e.target.value)} />
         </label>
       </p>
       <p>
         <textarea
           cols={40}
           rows={20}
-          onChange={(e) => setArticle(e.target.value)}
+          onChange={(e) => setContents(e.target.value)}
         ></textarea>
       </p>
-      <button type="button" onClick={() => submitArticle(name, article)}>
+      <button type="button" onClick={() => submitArticle(title, contents)}>
         Submit!
       </button>
     </>

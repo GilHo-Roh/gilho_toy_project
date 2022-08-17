@@ -4,14 +4,12 @@ import serve = require('koa-static')
 import fs = require('fs')
 import bcrypt = require('bcryptjs')
 import { generateToken, checkToken } from './jwt'
-const saltRounds = 10
-
 import {
-  loadAll,
+  loadAllArticle,
   loadArticle,
   saveArticle,
-  signinDB,
-  signupDB,
+  getAccount,
+  saveAccount,
   removeArticle,
 } from './database'
 
@@ -33,11 +31,10 @@ router.get('/api/hello', async (ctx, next) => {
   await next()
 })
 
-//make server api
 router.post('/api/signin', async (ctx, next) => {
   const { user_id, user_pw } = ctx.request.body
   console.log(user_id, user_pw)
-  const res = await signinDB(user_id)
+  const res = await getAccount(user_id)
 
   const isValid = await bcrypt.compare(user_pw, res.password as string)
   if (isValid) {
@@ -57,8 +54,8 @@ router.post('/api/signin', async (ctx, next) => {
 
 router.post('/api/signup', async (ctx, next) => {
   const { user_id, user_pw } = ctx.request.body
-
-  const res = await signinDB(user_id)
+  const saltRounds = 10
+  const res = await getAccount(user_id)
     .then((result) => false)
     .catch((err) => true)
 
@@ -68,7 +65,7 @@ router.post('/api/signup', async (ctx, next) => {
         ctx.body = { ok: false }
       } else {
         console.log(cryptedPassword)
-        await signupDB(user_id, cryptedPassword)
+        await saveAccount(user_id, cryptedPassword)
       }
     })
   }
@@ -82,7 +79,7 @@ router.post('/api/submit', async (ctx, next) => {
   const { user_id, title, article } = ctx.request.body
 
   var res = false
-  await signinDB(user_id)
+  await getAccount(user_id)
     .then((result) => (res = true))
     .catch((err) => (res = false))
 
@@ -109,7 +106,7 @@ router.post('/api/read', async (ctx, next) => {
 })
 
 router.get('/api/articles', async (ctx, next) => {
-  await loadAll().then((result) => {
+  await loadAllArticle().then((result) => {
     ctx.body = { ok: true, res: result }
   })
   await next()

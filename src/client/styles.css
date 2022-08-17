@@ -1,3 +1,9 @@
 body {
   background-color: #39c6e2;
 }
+
+.article {
+  background-color: rgb(241, 248, 246);
+  padding: 20px;
+  width: 200px;
+}

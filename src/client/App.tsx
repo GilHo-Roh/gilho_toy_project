@@ -1,17 +1,16 @@
-import * as React from 'react'
+import React = require('react')
 import {
   BrowserRouter as Router,
   Navigate,
   Route,
   Routes,
-  useNavigate,
 } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import Startpage from './pages/StartPage'
 import Signin from './pages/Signin'
 import Signup from './pages/Signup'
-import Mainpage from './pages/MainPage'
+import MainPage from './pages/MainPage'
 import WritePage from './pages/WritePage'
-import { useState, useEffect } from 'react'
 import ReadPage from './pages/ReadPage'
 
 export default function App() {
@@ -43,6 +42,7 @@ export default function App() {
       .then((res) => {
         if (res.ok) {
           alert('logout')
+          window.location.reload()
         }
       })
   }
@@ -55,14 +55,16 @@ export default function App() {
   return (
     <Router>
       <header>
-        <h4>login user is {user} </h4>
-        {authenticated ? (
-          <button type="button" onClick={() => logout()}>
-            logout
-          </button>
-        ) : (
-          <button type="button">hello</button>
-        )}
+        <h4>
+          login user is {user}!
+          {authenticated ? (
+            <button type="button" onClick={() => logout()}>
+              logout
+            </button>
+          ) : (
+            <></>
+          )}
+        </h4>
       </header>
       <Routes>
         <Route
@@ -91,7 +93,7 @@ export default function App() {
           path="/mainpage"
           element={
             authenticated ? (
-              <Mainpage articles={articles} />
+              <MainPage articles={articles} />
             ) : (
               <Navigate replace to="/" />
             )
