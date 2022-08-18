@@ -3,23 +3,30 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { signinChecker } from '../utility/loginchecker'
 
-const Signin = ({ setUser }: { setUser: (email: string) => void }) => {
+const Signin = ({
+  getInfo,
+  auth,
+}: {
+  getInfo: () => Promise<void>
+  auth: boolean
+}) => {
   const [id, setId] = useState('')
   const [pw, setPw] = useState('')
   const navigation = useNavigate()
 
-  const checkLogin = async (id, pw) => {
+  const checkLogin = async (id: string, pw: string) => {
     if (await signinChecker(id, pw)) {
-      setUser(id)
+      await getInfo()
       alert('login success')
-      navigation('/Mainpage')
     } else {
       setId('')
       setPw('')
       alert('login fail')
     }
   }
-
+  React.useEffect(() => {
+    if (auth === true) navigation('/main')
+  }, [auth, navigation])
   return (
     <>
       <form>

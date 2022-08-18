@@ -1,10 +1,5 @@
 import React = require('react')
-import {
-  BrowserRouter as Router,
-  Navigate,
-  Route,
-  Routes,
-} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Startpage from './pages/StartPage'
 import Signin from './pages/Signin'
@@ -12,39 +7,36 @@ import Signup from './pages/Signup'
 import MainPage from './pages/MainPage'
 import WritePage from './pages/WritePage'
 import ReadPage from './pages/ReadPage'
+import { getFetch } from './utility/fetchapi'
 
 export default function App() {
   const [user, setUser] = useState<string | undefined>(undefined)
-  const authenticated = user != undefined
+  const [authenticated, setAuth] = useState<boolean | undefined>(undefined)
 
   const [articles, setArticle] = useState([])
+
   const getArticles = async () => {
-    await fetch('http://localhost:3000/api/articles')
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.ok) {
-          setArticle(res.res)
-        }
-      })
+    const res = await getFetch('articles')
+    if (res.ok) setArticle(res.res)
   }
+
   const getInfo = async () => {
-    await fetch('http://localhost:3000/api/auth')
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.ok) {
-          setUser(res.res)
-        }
-      })
+    const res = await getFetch('auth')
+    if (res.ok) {
+      setUser(res.res)
+      setAuth(true)
+    } else {
+      setAuth(false)
+    }
   }
   const logout = async () => {
-    await fetch('http://localhost:3000/api/logout')
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.ok) {
-          alert('logout')
-          window.location.reload()
-        }
-      })
+    const res = await getFetch('logout')
+
+    if (res.ok) {
+      alert('logout')
+      window.location.reload()
+      setAuth(false)
+    }
   }
 
   useEffect(() => {
@@ -67,51 +59,20 @@ export default function App() {
         </h4>
       </header>
       <Routes>
-        <Route
-          path="/"
-          element={
-            !authenticated ? <Startpage /> : <Navigate replace to="/mainpage" />
-          }
-        />
+        <Route path="/" element={<Startpage auth={authenticated} />} />
         <Route
           path="/signin"
-          element={
-            !authenticated ? (
-              <Signin setUser={setUser} />
-            ) : (
-              <Navigate replace to="/mainpage" />
-            )
-          }
+          element={<Signin getInfo={getInfo} auth={authenticated} />}
         />
+        <Route path="/signup" element={<Signup auth={authenticated} />} />
         <Route
-          path="/signup"
-          element={
-            !authenticated ? <Signup /> : <Navigate replace to="/mainpage" />
-          }
+          path="/main"
+          element={<MainPage articles={articles} auth={authenticated} />}
         />
+        <Route path="/write" element={<WritePage />} />
         <Route
-          path="/mainpage"
-          element={
-            authenticated ? (
-              <MainPage articles={articles} />
-            ) : (
-              <Navigate replace to="/" />
-            )
-          }
-        />
-        <Route
-          path="/writepage"
-          element={
-            authenticated ? (
-              <WritePage user={user} />
-            ) : (
-              <Navigate replace to="/" />
-            )
-          }
-        />
-        <Route
-          path="/readpage/:title"
-          element={authenticated ? <ReadPage /> : <Startpage />}
+          path="/articles/:title"
+          element={<ReadPage auth={authenticated} />}
         />
       </Routes>
     </Router>

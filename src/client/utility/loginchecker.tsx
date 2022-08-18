@@ -1,51 +1,15 @@
-import React = require('react')
+import { postFetch } from './fetchapi'
 
-export const SigninChecker = async (id: string, pw: string) => {
-  //query string
-
-  return await fetch('http://localhost:3000/api/signin', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      user_id: id,
-      user_pw: pw,
-      batch: 1,
-    }),
-  })
-    .then((res) => res.json())
-    .then((res) => res.ok)
+export const signinChecker = async (email: string, pw: string) => {
+  return await postFetch('signin', { email, pw })
 }
 
-export const SignupChecker = async (id: string, pw: string) => {
-  //query string
-  var check = false
-  await fetch('http://localhost:3000/api/signup', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      user_id: id,
-      user_pw: pw,
-      batch: 1,
-    }),
-  })
-    .then((res) => res.json())
-    .then((res) => {
-      check = res.ok
-    })
-
-  return check
+export const signupChecker = async (email: string, pw: string) => {
+  return await postFetch('signup', { email, pw })
 }
 
-export const emailChecker = (id: string) => {
-  const emailRegex = /^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/
-  return emailRegex.test(id)
-}
+const emailRegex = /^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/
+const passwordRegex = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/
 
-export const passwordChecker = (pw: string) => {
-  const passwordRegex = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/
-  return passwordRegex.test(pw)
-}
+export const validateEmail = (id: string) => emailRegex.test(id)
+export const validatePassword = (pw: string) => passwordRegex.test(pw)

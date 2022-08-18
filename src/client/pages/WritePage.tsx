@@ -1,36 +1,23 @@
 import { useState } from 'react'
 import React = require('react')
 import { useNavigate } from 'react-router-dom'
+import { postFetch } from '../utility/fetchapi'
 
-const WritePage = ({ user }: { user: string }) => {
+const WritePage = () => {
   const [title, setTitle] = useState('')
   const [contents, setContents] = useState('')
   const navi = useNavigate()
 
   const submitArticle = async (title: string, contents: string) => {
-    console.log(title, contents, user)
-    await fetch('http://localhost:3000/api/submit', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        user_id: user,
-        title: title,
-        article: contents,
-        batch: 1,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.ok) {
-          alert('writing success')
-          navi('/Mainpage')
-          window.location.reload()
-        } else {
-          alert('writing fail')
-        }
-      })
+    const res = await postFetch('submit', { title, contents })
+
+    if (res.ok) {
+      alert('writing success')
+      navi('/main')
+      window.location.reload()
+    } else {
+      alert('writing fail')
+    }
   }
 
   return (

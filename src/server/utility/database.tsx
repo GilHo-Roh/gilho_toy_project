@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { createPool, sql, type DatabaseConnection } from 'slonik'
+import { createPool, sql } from 'slonik'
 
 export const pool = createPool(
   'postgresql://postgres:password@localhost:6544/gilho_toy_project'
@@ -13,11 +12,10 @@ export const getAccount = (email: string) =>
                                             WHERE email=${email}`)
 
     if (result.rowCount === 0) {
-      console.log(email)
-      throw new Error('Resource not found.')
+      return { ok: false, res: undefined }
     }
 
-    return result.rows[0]
+    return { ok: true, res: result.rows[0] }
   })
 
 export const saveAccount = (email: string, password: string) =>
@@ -32,11 +30,11 @@ export const saveArticle = (email: string, name: string, article: string) =>
                                VALUES (${email}, ${name}, ${article})`)
   })
 
-export const loadArticle = (name: string) =>
+export const loadArticle = (title: string) =>
   pool.connect(async (connection) => {
     const result = await connection.query(sql`SELECT * 
                                               FROM article
-                                              WHERE title=${name}`)
+                                              WHERE title=${title}`)
 
     if (result.rowCount === 0) {
       throw new Error('Resource not found.')

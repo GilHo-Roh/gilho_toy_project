@@ -1,20 +1,31 @@
 import React = require('react')
 import { Link, useNavigate } from 'react-router-dom'
 
-function Article({ article }) {
+const Article = ({
+  article,
+}: {
+  article: { title: string; email: string }
+}) => {
   return (
     <div>
-      <Link to={'/Readpage/' + article.title}>{article.title}</Link>
+      <Link to={'/articles/' + article.title}>{article.title}</Link>
     </div>
   )
 }
 
 const MainPage = ({
   articles,
+  auth,
 }: {
   articles: { title: string; email: string }[]
+  auth: boolean
 }) => {
   const navigation = useNavigate()
+
+  React.useEffect(() => {
+    if (auth === false) navigation('/')
+  }, [auth, navigation])
+
   return (
     <>
       <h2>welcome to main page</h2>
@@ -23,11 +34,11 @@ const MainPage = ({
           <Article article={user} key={user.title} />
         ))}
       </div>
-      <button type="button" onClick={() => navigation('/Writepage')}>
+      <button type="button" onClick={() => navigation('/write')}>
         Write!
       </button>
     </>
   )
 }
 
-export default MainPage
+export default React.memo(MainPage)

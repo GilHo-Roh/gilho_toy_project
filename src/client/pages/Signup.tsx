@@ -7,7 +7,7 @@ import {
 } from '../utility/loginchecker'
 import { useNavigate } from 'react-router-dom'
 
-const Signup = () => {
+const Signup = ({ auth }: { auth: boolean }) => {
   const [id, setId] = useState('')
   const [pw, setPw] = useState('')
   const [pwCheck, setPwCheck] = useState('')
@@ -32,6 +32,10 @@ const Signup = () => {
       }
     }
   }
+
+  React.useEffect(() => {
+    if (auth === true) navigation('/main')
+  }, [auth, navigation])
 
   return (
     <>
