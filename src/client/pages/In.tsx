@@ -1,7 +1,7 @@
 import React = require('react')
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { SigninChecker } from '../utility/loginchecker'
+import { signinChecker } from '../utility/loginchecker'
 
 const Signin = ({ setUser }: { setUser: (email: string) => void }) => {
   const [id, setId] = useState('')
@@ -9,7 +9,7 @@ const Signin = ({ setUser }: { setUser: (email: string) => void }) => {
   const navigation = useNavigate()
 
   const checkLogin = async (id, pw) => {
-    if (await SigninChecker(id, pw)) {
+    if (await signinChecker(id, pw)) {
       setUser(id)
       alert('login success')
       navigation('/Mainpage')

@@ -1,9 +1,9 @@
 import React = require('react')
 import { useState } from 'react'
 import {
-  emailChecker,
-  passwordChecker,
-  SignupChecker,
+  validateEmail,
+  validatePassword,
+  signupChecker,
 } from '../utility/loginchecker'
 import { useNavigate } from 'react-router-dom'
 
@@ -14,14 +14,14 @@ const Signup = () => {
   const navigation = useNavigate()
 
   const checkSignup = async (id: string, pw: string, pwCheck: string) => {
-    if (!emailChecker(id)) {
+    if (!validateEmail(id)) {
       alert('invalid email!')
-    } else if (!passwordChecker(pw)) {
+    } else if (!validatePassword(pw)) {
       alert('invalid password!')
     } else if (pw != pwCheck) {
       alert('password different!')
     } else {
-      if (await SignupChecker(id, pw)) {
+      if (await signupChecker(id, pw)) {
         alert('success sign up!')
         navigation('/Signin')
       } else {
