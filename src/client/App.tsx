@@ -1,4 +1,4 @@
-import React = require('react')
+import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Startpage from './pages/StartPage'

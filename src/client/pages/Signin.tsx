@@ -1,4 +1,4 @@
-import React = require('react')
+import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { signinChecker } from '../utility/login-checker'

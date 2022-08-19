@@ -1,4 +1,4 @@
-import bcrypt = require('bcryptjs')
+import bcrypt from 'bcryptjs'
 import { generateToken, checkToken } from '../utility/jwt'
 import {
   loadAllArticle,
@@ -8,7 +8,7 @@ import {
   saveAccount,
   removeArticle,
 } from '../utility/database'
-import Router = require('koa-router')
+import Router from 'koa-router'
 
 const api = new Router()
 

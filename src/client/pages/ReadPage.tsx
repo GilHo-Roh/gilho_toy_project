@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import React = require('react')
+import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { callAPI } from '../utility/fetch-api'
 // import { postFetch } from '../utility/fetch-api'
