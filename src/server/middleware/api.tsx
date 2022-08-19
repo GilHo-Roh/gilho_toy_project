@@ -18,6 +18,7 @@ api.post('/signin', async (ctx, next) => {
   const result = await getAccount(email)
 
   const isValid = await bcrypt.compare(pw, result.res.password as string)
+
   if (isValid) {
     const token = generateToken(email)
     ctx.cookies.set('jwt', token, {
@@ -27,7 +28,6 @@ api.post('/signin', async (ctx, next) => {
       secureProxy: true,
     })
   }
-
   ctx.body = { ok: isValid }
 
   await next()
@@ -49,10 +49,8 @@ api.post('/signup', async (ctx, next) => {
 
 api.post('/submit', async (ctx, next) => {
   const { title, contents } = ctx.request.body
-  console.log(title)
   const id = checkToken(ctx.cookies.get('jwt'))
   const res = await getAccount(id)
-  console.log(contents)
   if (res.ok) await saveArticle(id, title, contents)
 
   ctx.body = { ok: true }
@@ -62,13 +60,8 @@ api.post('/submit', async (ctx, next) => {
 
 api.post('/read', async (ctx, next) => {
   const { title } = ctx.request.body
-  console.log(title)
-  try {
-    const res = await loadArticle(title)
-    ctx.body = { ok: true, result: res }
-  } catch {
-    ctx.body = { ok: false, result: null }
-  }
+  const res = await loadArticle(title)
+  ctx.body = { ok: true, result: res }
 
   await next()
 })
