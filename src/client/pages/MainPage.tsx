@@ -28,15 +28,17 @@ const MainPage = ({
 
   return (
     <>
-      <h2>welcome to main page</h2>
+      <h2 className="main">welcome to main page</h2>
       <div className="article">
         {articles.map((user) => (
           <Article article={user} key={user.title} />
         ))}
       </div>
-      <button type="button" onClick={() => navigation('/write')}>
-        Write!
-      </button>
+      <div className="btn">
+        <button type="button" onClick={() => navigation('/write')}>
+          Write!
+        </button>
+      </div>
     </>
   )
 }

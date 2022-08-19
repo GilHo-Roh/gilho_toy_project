@@ -1,9 +1,111 @@
 body {
-  background-color: #39c6e2;
+  margin-left: 50px;
+  background-color: #39e27d;
 }
 
 .article {
   background-color: rgb(241, 248, 246);
-  padding: 20px;
-  width: 200px;
+  padding: 30px;
+  width: 340px;
+  font-size: large;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-align: left;
+  display: block;
+  margin-bottom: 30px;
+}
+
+.user {
+  width: 400px;
+  font-size: large;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+  padding-bottom: 10px;
+  border-bottom: solid 2px black;
+}
+
+.main {
+  width: 400px;
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.read {
+  background-color: rgb(227, 239, 183);
+  width: 340px;
+  height: 300px;
+  padding: 10px 30px;
+  margin: 10px 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin-bottom: 30px;
+}
+
+.readhead {
+  background-color: rgb(230, 170, 179);
+  width: 340px;
+  padding: 10px 30px;
+  margin: 10px 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin-bottom: 10px;
+}
+
+.btn {
+  width: 400px;
+  text-align: right;
+}
+
+.btn2 {
+  width: 340px;
+  text-align: right;
+}
+
+.start {
+  background-color: rgb(227, 239, 183);
+  width: 380px;
+  height: 300px;
+  padding: 10px 10px;
+  margin: 10px 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.head {
+  margin-bottom: 50px;
+}
+
+.signin {
+  background-color: rgb(227, 239, 183);
+  width: 360px;
+  height: 130px;
+  padding: 10px 20px;
+  margin: 10px 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.signup {
+  background-color: rgb(227, 239, 183);
+  width: 360px;
+  height: 170px;
+  padding: 10px 20px;
+  margin: 10px 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+input {
+  width: 230px;
+}
+
+.write {
+  background-color: rgb(241, 248, 246);
+  padding: 10px 30px;
+  width: 340px;
+  margin: 20px 0;
+  font-size: large;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+  margin-bottom: 30px;
 }

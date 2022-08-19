@@ -15,7 +15,8 @@ const Signin = ({
   const navigation = useNavigate()
 
   const checkLogin = async (id: string, pw: string) => {
-    if (await signinChecker(id, pw)) {
+    const res = await signinChecker(id, pw)
+    if (res.ok) {
       await getInfo()
       alert('login success')
     } else {
@@ -29,19 +30,25 @@ const Signin = ({
   }, [auth, navigation])
   return (
     <>
-      <form>
+      <div className="signin">
         <label>
-          Email:
+          Id(email) :&emsp;
           <input type="text" onChange={(e) => setId(e.target.value)} />
         </label>
+        <br />
+        <br />
         <label>
-          Password:
+          Password :&emsp;
           <input type="password" onChange={(e) => setPw(e.target.value)} />
         </label>
-        <button type="button" onClick={() => checkLogin(id, pw)}>
-          Sign in!
-        </button>
-      </form>
+        <br />
+        <br />
+        <div className="btn2">
+          <button type="button" onClick={() => checkLogin(id, pw)}>
+            Sign in!
+          </button>
+        </div>
+      </div>
     </>
   )
 }

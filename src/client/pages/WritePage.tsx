@@ -22,23 +22,27 @@ const WritePage = () => {
 
   return (
     <>
-      <h2>write your article!</h2>
-      <p>
-        <label>
-          Title:
-          <input type="text" onChange={(e) => setTitle(e.target.value)} />
-        </label>
-      </p>
-      <p>
-        <textarea
-          cols={40}
-          rows={20}
-          onChange={(e) => setContents(e.target.value)}
-        ></textarea>
-      </p>
-      <button type="button" onClick={() => submitArticle(title, contents)}>
-        Submit!
-      </button>
+      <div className="write">
+        <h2>write your article!</h2>
+        <p>
+          <label>
+            TITLE : &ensp;
+            <input type="text" onChange={(e) => setTitle(e.target.value)} />
+          </label>
+        </p>
+        <p>
+          <textarea
+            cols={40}
+            rows={20}
+            onChange={(e) => setContents(e.target.value)}
+          ></textarea>
+        </p>
+        <div className="btn2">
+          <button type="button" onClick={() => submitArticle(title, contents)}>
+            Submit!
+          </button>
+        </div>
+      </div>
     </>
   )
 }

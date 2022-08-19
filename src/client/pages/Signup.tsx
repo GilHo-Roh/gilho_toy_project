@@ -23,7 +23,7 @@ const Signup = ({ auth }: { auth: boolean }) => {
     } else {
       if (await signupChecker(id, pw)) {
         alert('success sign up!')
-        navigation('/Signin')
+        navigation('/signin')
       } else {
         setId('')
         setPw('')
@@ -39,23 +39,36 @@ const Signup = ({ auth }: { auth: boolean }) => {
 
   return (
     <>
-      <form>
-        <label>
-          Email:
-          <input type="text" onChange={(e) => setId(e.target.value)} />
-        </label>
-        <label>
-          Password:
-          <input type="password" onChange={(e) => setPw(e.target.value)} />
-        </label>
-        <label>
-          Password Check:
-          <input type="password" onChange={(e) => setPwCheck(e.target.value)} />
-        </label>
-        <button type="button" onClick={() => checkSignup(id, pw, pwCheck)}>
-          Sign up!
-        </button>
-      </form>
+      <div className="signup">
+        <form>
+          <label>
+            Id(email) :&emsp;
+            <input type="text" onChange={(e) => setId(e.target.value)} />
+          </label>
+          <br />
+          <br />
+          <label>
+            Password :&emsp;
+            <input type="password" onChange={(e) => setPw(e.target.value)} />
+          </label>
+          <br />
+          <br />
+          <label>
+            PW Check:&emsp;
+            <input
+              type="password"
+              onChange={(e) => setPwCheck(e.target.value)}
+            />
+          </label>
+          <br />
+          <br />
+          <div className="btn2">
+            <button type="button" onClick={() => checkSignup(id, pw, pwCheck)}>
+              Sign up!
+            </button>
+          </div>
+        </form>
+      </div>
     </>
   )
 }

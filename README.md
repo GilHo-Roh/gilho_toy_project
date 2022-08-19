@@ -187,6 +187,14 @@ https://medium.com/walmartglobaltech/the-benefits-of-server-side-rendering-over-
 - 서버와 클라이언트간의 통신을 위한 API
 - axios, fetch 등, 본 프로젝트는 fetch를 사용
 - POST, GET를 본 프로젝트에서 사용
+- Fetch를 하는 함수를 따로 만들어 주어 코드가독성을 높임
+
+## React Hook
+
+- useState
+- useEffect
+- useCallback
+- rendering과 함수 호출을 최소화 하기 위한 고민을 해볼 수 있었음
 
 # Lessons I learned
 
@@ -195,3 +203,5 @@ https://medium.com/walmartglobaltech/the-benefits-of-server-side-rendering-over-
 - 강력한 도구임을 알 수 있었으며, hook과 같은 것들을 통해 페이지를 관리할 수 있었음.
 - 코드 컨벤션을 좀 더 신경쓸 수 있었다.
 - bcrypt, jwt 등과 같은 보안 툴을 직접 사용해보았다.
+- 웹을 처음 다루어 보았으며, 렌더링과 같은 과정을 처음 이해하였다. 이같은 과정을 최소화 하고 싶었고, 마음에 들지 않은 요소들도 많이 보였다.
+- 처음 페이지 설계 과정의 문제와 useNavigate 훅을 많이 사용하면서 불필요한 렌더링 진행이 있었다.

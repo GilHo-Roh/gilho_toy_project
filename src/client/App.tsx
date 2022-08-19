@@ -47,16 +47,18 @@ export default function App() {
   return (
     <Router>
       <header>
-        <h4>
-          login user is {user}!
+        <div>
           {authenticated ? (
-            <button type="button" onClick={() => logout()}>
-              logout
-            </button>
+            <div className="user">
+              login user is {user}!&nbsp;
+              <button type="button" onClick={() => logout()}>
+                logout
+              </button>
+            </div>
           ) : (
             <></>
           )}
-        </h4>
+        </div>
       </header>
       <Routes>
         <Route path="/" element={<Startpage auth={authenticated} />} />

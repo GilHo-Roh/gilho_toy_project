@@ -33,7 +33,6 @@ const ReadPage = ({ auth }: { auth: boolean }) => {
     }
   }, [navigation, title])
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => {
     getArticle()
   }, [getArticle])
@@ -44,12 +43,20 @@ const ReadPage = ({ auth }: { auth: boolean }) => {
 
   return (
     <>
-      <h4>writer: {user}</h4>
-      <h3>title: {title}</h3>
-      <h3>{contents}</h3>
-      <button type="button" onClick={() => deleteArticle()}>
-        Delete!
-      </button>
+      <div className="readhead">
+        <h4>
+          {user} <br />
+          {title}
+        </h4>
+      </div>
+      <div className="read">
+        <h3>{contents}</h3>
+      </div>
+      <div className="btn">
+        <button type="button" onClick={() => deleteArticle()}>
+          Delete!
+        </button>
+      </div>
     </>
   )
 }
