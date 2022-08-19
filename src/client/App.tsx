@@ -7,21 +7,29 @@ import Signup from './pages/Signup'
 import MainPage from './pages/MainPage'
 import WritePage from './pages/WritePage'
 import ReadPage from './pages/ReadPage'
-import { getFetch } from './utility/fetchapi'
+import { callAPI } from './utility/fetch-api'
 
 export default function App() {
-  const [user, setUser] = useState<string | undefined>(undefined)
-  const [authenticated, setAuth] = useState<boolean | undefined>(undefined)
+  const [user, setUser] = useState<string>()
+  const [authenticated, setAuth] = useState<boolean>(false)
 
   const [articles, setArticle] = useState([])
 
   const getArticles = async () => {
-    const res = await getFetch('articles')
+    const res = await callAPI({
+      path: '/articles',
+      method: 'GET',
+      contents: {},
+    })
     if (res.ok) setArticle(res.res)
   }
 
   const getInfo = async () => {
-    const res = await getFetch('auth')
+    const res = await callAPI({
+      path: '/auth',
+      method: 'GET',
+      contents: {},
+    })
     if (res.ok) {
       setUser(res.res)
       setAuth(true)
@@ -30,7 +38,11 @@ export default function App() {
     }
   }
   const logout = async () => {
-    const res = await getFetch('logout')
+    const res = await callAPI({
+      path: '/logout',
+      method: 'GET',
+      contents: {},
+    })
 
     if (res.ok) {
       alert('logout')
@@ -50,14 +62,12 @@ export default function App() {
         <div>
           {authenticated ? (
             <div className="user">
-              login user is {user}!&nbsp;
+              {`login user is ${user} `}
               <button type="button" onClick={() => logout()}>
                 logout
               </button>
             </div>
-          ) : (
-            <></>
-          )}
+          ) : null}
         </div>
       </header>
       <Routes>

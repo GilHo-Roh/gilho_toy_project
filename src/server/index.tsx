@@ -1,9 +1,9 @@
-import Koa = require('koa')
-import Router = require('koa-router')
-import serve = require('koa-static')
-import fs = require('fs')
+import Koa from 'koa'
+import Router from 'koa-router'
+import serve from 'koa-static'
+import fs from 'fs'
 
-import bodyParser = require('koa-bodyparser')
+import bodyParser from 'koa-bodyparser'
 import api from './middleware/api'
 import { errorHandler } from './middleware/auth'
 
@@ -13,8 +13,8 @@ const router = new Router()
 
 router.use('/api', api.routes())
 
-const regex = /^(?!\/api).*/
-router.get(regex, async (ctx) => {
+const nonAPIRegex = /^(?!\/api).*/
+router.get(nonAPIRegex, async (ctx) => {
   const html = await fs.promises.readFile('./src/client/index.html', 'utf-8')
   ctx.body = html
 })

@@ -16,8 +16,12 @@ api.post('/signin', async (ctx, next) => {
   const { email, pw } = ctx.request.body
 
   const result = await getAccount(email)
+  const savedPwd: string | undefined = (result.res as any)?.password
+  if (!savedPwd) {
+    throw new Error('pwd not found.')
+  }
 
-  const isValid = await bcrypt.compare(pw, result.res.password as string)
+  const isValid = await bcrypt.compare(pw, savedPwd as string)
 
   if (isValid) {
     const token = generateToken(email)
@@ -49,7 +53,18 @@ api.post('/signup', async (ctx, next) => {
 
 api.post('/submit', async (ctx, next) => {
   const { title, contents } = ctx.request.body
-  const id = checkToken(ctx.cookies.get('jwt'))
+  const jwt = ctx.cookies.get('jwt')
+
+  if (!jwt) {
+    throw new Error('JWT not found.')
+  }
+
+  const id = checkToken(jwt)
+
+  if (!id) {
+    throw new Error('User not found.')
+  }
+
   const res = await getAccount(id)
   if (res.ok) await saveArticle(id, title, contents)
 
@@ -69,11 +84,14 @@ api.post('/read', async (ctx, next) => {
 api.post('/remove', async (ctx, next) => {
   const { title } = ctx.request.body
   const token = ctx.cookies.get('jwt')
+  if (!token) {
+    throw new Error('Not authenticated.')
+  }
   const user = checkToken(token)
 
   const result = await loadArticle(title)
 
-  if (result.email == user) {
+  if ((result as any)?.email === user) {
     removeArticle(title)
     ctx.body = { ok: true }
   } else {

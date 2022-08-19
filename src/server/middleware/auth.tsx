@@ -1,4 +1,6 @@
-export const errorHandler = () => {
+import type { Middleware } from 'koa'
+
+export const errorHandler = (): Middleware => {
   return async (ctx, next) => {
     try {
       await next()

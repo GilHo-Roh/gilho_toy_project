@@ -1,11 +1,25 @@
-import { postFetch } from './fetchapi'
+import { callAPI } from './fetch-api'
 
 export const signinChecker = async (email: string, pw: string) => {
-  return await postFetch('signin', { email, pw })
+  return callAPI({
+    path: '/signin',
+    method: 'POST',
+    contents: {
+      email,
+      pw,
+    },
+  })
 }
 
 export const signupChecker = async (email: string, pw: string) => {
-  return await postFetch('signup', { email, pw })
+  return callAPI({
+    path: '/signup',
+    method: 'POST',
+    contents: {
+      email,
+      pw,
+    },
+  })
 }
 
 const emailRegex = /^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/
