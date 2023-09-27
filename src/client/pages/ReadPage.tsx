@@ -1,45 +1,74 @@
 import { useState } from 'react'
-import React = require('react')
+import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { postFetch } from '../utility/fetchapi'
+import { callAPI } from '../utility/fetch-api'
+// import { postFetch } from '../utility/fetch-api'
 
 const ReadPage = ({ auth }: { auth: boolean }) => {
+  React.useEffect(() => {
+    console.log('ReadPage')
+  }, [])
+
   const { title } = useParams()
   const [user, setUser] = useState('')
   const [contents, setContents] = useState('')
 
-  const navigation = useNavigate()
+  const _navigate = useNavigate()
 
+  const navigate = React.useCallback(
+    (path: string) => {
+      console.log('navigate called', path)
+      _navigate(path)
+    },
+    [_navigate]
+  )
+
+  /*
   const deleteArticle = async () => {
     const res = await postFetch('remove', { title })
+    callAPI({
+      method: 'POST'
+    })
 
     if (res.ok) {
       alert('remove article success')
-      navigation('/main')
+      navigate('/main')
       window.location.reload()
     } else {
       alert('permission denied')
     }
   }
+  */
 
   const getArticle = React.useCallback(async () => {
-    const res = await postFetch('read', { title })
+    console.log('getArticle', title)
+    const res = await callAPI({
+      method: 'POST',
+      path: '/read',
+      contents: {
+        title,
+      },
+    })
 
     if (res.ok) {
       setUser(res.result.email)
       setContents(res.result.article)
     } else {
-      navigation('/')
+      alert('nono')
+      navigate('/')
     }
-  }, [navigation, title])
+  }, [navigate, title])
 
   React.useEffect(() => {
+    console.log('before calling getArticle')
     getArticle()
   }, [getArticle])
 
   React.useEffect(() => {
-    if (auth === false) navigation('/')
-  }, [auth, navigation])
+    if (auth === false) {
+      navigate('/')
+    }
+  }, [auth, navigate])
 
   return (
     <>
@@ -53,9 +82,9 @@ const ReadPage = ({ auth }: { auth: boolean }) => {
         <h3>{contents}</h3>
       </div>
       <div className="btn">
-        <button type="button" onClick={() => deleteArticle()}>
+        {/* <button type="button" onClick={() => deleteArticle()}>
           Delete!
-        </button>
+        </button> */}
       </div>
     </>
   )

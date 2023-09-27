@@ -1,4 +1,4 @@
-import React = require('react')
+import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Startpage from './pages/StartPage'
@@ -7,21 +7,33 @@ import Signup from './pages/Signup'
 import MainPage from './pages/MainPage'
 import WritePage from './pages/WritePage'
 import ReadPage from './pages/ReadPage'
-import { getFetch } from './utility/fetchapi'
+import { callAPI } from './utility/fetch-api'
 
 export default function App() {
-  const [user, setUser] = useState<string | undefined>(undefined)
-  const [authenticated, setAuth] = useState<boolean | undefined>(undefined)
+  React.useEffect(() => {
+    console.log('App')
+  }, [])
+
+  const [user, setUser] = useState<string>()
+  const [authenticated, setAuth] = useState<boolean>()
 
   const [articles, setArticle] = useState([])
 
   const getArticles = async () => {
-    const res = await getFetch('articles')
+    const res = await callAPI({
+      path: '/articles',
+      method: 'GET',
+      contents: {},
+    })
     if (res.ok) setArticle(res.res)
   }
 
   const getInfo = async () => {
-    const res = await getFetch('auth')
+    const res = await callAPI({
+      path: '/auth',
+      method: 'GET',
+      contents: {},
+    })
     if (res.ok) {
       setUser(res.res)
       setAuth(true)
@@ -30,7 +42,11 @@ export default function App() {
     }
   }
   const logout = async () => {
-    const res = await getFetch('logout')
+    const res = await callAPI({
+      path: '/logout',
+      method: 'GET',
+      contents: {},
+    })
 
     if (res.ok) {
       alert('logout')
@@ -44,39 +60,44 @@ export default function App() {
     getInfo()
   }, [])
 
+  console.log('auth', authenticated)
+
+  const readPage = React.useMemo(
+    () =>
+      authenticated === undefined ? null : <ReadPage auth={authenticated} />,
+    [authenticated]
+  )
+
   return (
     <Router>
       <header>
         <div>
           {authenticated ? (
             <div className="user">
-              login user is {user}!&nbsp;
+              {`login user is ${user} `}
               <button type="button" onClick={() => logout()}>
                 logout
               </button>
             </div>
-          ) : (
-            <></>
-          )}
+          ) : null}
         </div>
       </header>
-      <Routes>
-        <Route path="/" element={<Startpage auth={authenticated} />} />
-        <Route
-          path="/signin"
-          element={<Signin getInfo={getInfo} auth={authenticated} />}
-        />
-        <Route path="/signup" element={<Signup auth={authenticated} />} />
-        <Route
-          path="/main"
-          element={<MainPage articles={articles} auth={authenticated} />}
-        />
-        <Route path="/write" element={<WritePage />} />
-        <Route
-          path="/articles/:title"
-          element={<ReadPage auth={authenticated} />}
-        />
-      </Routes>
+      {authenticated === undefined ? null : (
+        <Routes>
+          <Route path="/" element={<Startpage auth={authenticated} />} />
+          <Route
+            path="/signin"
+            element={<Signin getInfo={getInfo} auth={authenticated} />}
+          />
+          <Route path="/signup" element={<Signup auth={authenticated} />} />
+          <Route
+            path="/main"
+            element={<MainPage articles={articles} auth={authenticated} />}
+          />
+          <Route path="/write" element={<WritePage />} />
+          <Route path="/articles/:title" element={readPage} />
+        </Routes>
+      )}
     </Router>
   )
 }

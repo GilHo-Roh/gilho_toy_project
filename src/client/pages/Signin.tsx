@@ -1,7 +1,7 @@
-import React = require('react')
+import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { signinChecker } from '../utility/loginchecker'
+import { signinChecker } from '../utility/login-checker'
 
 const Signin = ({
   getInfo,
@@ -10,8 +10,8 @@ const Signin = ({
   getInfo: () => Promise<void>
   auth: boolean
 }) => {
-  const [id, setId] = useState('')
-  const [pw, setPw] = useState('')
+  const [id, setId] = useState<string>()
+  const [pw, setPw] = useState<string>()
   const navigation = useNavigate()
 
   const checkLogin = async (id: string, pw: string) => {
@@ -20,8 +20,8 @@ const Signin = ({
       await getInfo()
       alert('login success')
     } else {
-      setId('')
-      setPw('')
+      setId(undefined)
+      setPw(undefined)
       alert('login fail')
     }
   }
@@ -33,18 +33,30 @@ const Signin = ({
       <div className="signin">
         <label>
           Id(email) :&emsp;
-          <input type="text" onChange={(e) => setId(e.target.value)} />
+          <input type="text" onChange={(e) => setId(e.currentTarget.value)} />
         </label>
         <br />
         <br />
         <label>
           Password :&emsp;
-          <input type="password" onChange={(e) => setPw(e.target.value)} />
+          <input
+            type="password"
+            onChange={(e) => setPw(e.currentTarget.value)}
+          />
         </label>
         <br />
         <br />
         <div className="btn2">
-          <button type="button" onClick={() => checkLogin(id, pw)}>
+          <button
+            type="button"
+            onClick={() => {
+              if (id && pw) {
+                checkLogin(id, pw)
+              } else {
+                alert('ID or PWD not entered')
+              }
+            }}
+          >
             Sign in!
           </button>
         </div>

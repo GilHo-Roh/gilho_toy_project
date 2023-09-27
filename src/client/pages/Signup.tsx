@@ -1,10 +1,10 @@
-import React = require('react')
+import React from 'react'
 import { useState } from 'react'
 import {
   validateEmail,
   validatePassword,
   signupChecker,
-} from '../utility/loginchecker'
+} from '../utility/login-checker'
 import { useNavigate } from 'react-router-dom'
 
 const Signup = ({ auth }: { auth: boolean }) => {

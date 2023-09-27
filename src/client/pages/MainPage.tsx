@@ -1,4 +1,4 @@
-import React = require('react')
+import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 const Article = ({
@@ -20,11 +20,13 @@ const MainPage = ({
   articles: { title: string; email: string }[]
   auth: boolean
 }) => {
-  const navigation = useNavigate()
+  const navigate = useNavigate()
 
   React.useEffect(() => {
-    if (auth === false) navigation('/')
-  }, [auth, navigation])
+    if (!auth) {
+      navigate('/')
+    }
+  }, [auth, navigate])
 
   return (
     <>
@@ -35,7 +37,7 @@ const MainPage = ({
         ))}
       </div>
       <div className="btn">
-        <button type="button" onClick={() => navigation('/write')}>
+        <button type="button" onClick={() => navigate('/write')}>
           Write!
         </button>
       </div>
