@@ -8,21 +8,27 @@ interface APIOptionBase<
   path: Path
   method: Method
   contents: Contents
-  result: Result
+  result: CommonResult | (CommonResult & Result)
 }
 
+type CommonResult = { ok: boolean }
+
 export type APIOptions =
-  | APIOptionBase<'/remove', 'POST', { title: string }, { ok: boolean }>
+  | APIOptionBase<'/articles', 'GET', {}, any>
+  | APIOptionBase<`/auth`, 'GET', {}, any>
+  | APIOptionBase<`/logout`, 'GET', {}, any>
+  | APIOptionBase<'/remove', 'POST', { title: string }, CommonResult>
   | APIOptionBase<
       '/submit',
       'POST',
       { title: string; contents: string },
       { ok: boolean }
     >
-  | APIOptionBase<'/articles', 'GET', {}, any>
-  | APIOptionBase<`/read/${string}`, 'GET', {}, any>
-  | APIOptionBase<`/auth`, 'GET', {}, any>
-  | APIOptionBase<`/logout`, 'GET', {}, any>
-  | APIOptionBase<`/read`, 'POST', { title: string }, any>
+  | APIOptionBase<
+      `/read`,
+      'POST',
+      { title: string },
+      CommonResult & { res?: string }
+    >
   | APIOptionBase<`/signin`, 'POST', { email: string; pw: string }, any>
   | APIOptionBase<`/signup`, 'POST', { email: string; pw: string }, any>

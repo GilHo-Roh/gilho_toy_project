@@ -5,11 +5,23 @@ import { callAPI } from '../utility/fetch-api'
 // import { postFetch } from '../utility/fetch-api'
 
 const ReadPage = ({ auth }: { auth: boolean }) => {
+  React.useEffect(() => {
+    console.log('ReadPage')
+  }, [])
+
   const { title } = useParams()
   const [user, setUser] = useState('')
   const [contents, setContents] = useState('')
 
-  const navigate = useNavigate()
+  const _navigate = useNavigate()
+
+  const navigate = React.useCallback(
+    (path: string) => {
+      console.log('navigate called', path)
+      _navigate(path)
+    },
+    [_navigate]
+  )
 
   /*
   const deleteArticle = async () => {
@@ -29,6 +41,7 @@ const ReadPage = ({ auth }: { auth: boolean }) => {
   */
 
   const getArticle = React.useCallback(async () => {
+    console.log('getArticle', title)
     const res = await callAPI({
       method: 'POST',
       path: '/read',
@@ -41,16 +54,20 @@ const ReadPage = ({ auth }: { auth: boolean }) => {
       setUser(res.result.email)
       setContents(res.result.article)
     } else {
+      alert('nono')
       navigate('/')
     }
   }, [navigate, title])
 
   React.useEffect(() => {
+    console.log('before calling getArticle')
     getArticle()
   }, [getArticle])
 
   React.useEffect(() => {
-    if (auth === false) navigate('/')
+    if (auth === false) {
+      navigate('/')
+    }
   }, [auth, navigate])
 
   return (

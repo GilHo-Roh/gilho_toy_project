@@ -10,8 +10,12 @@ import ReadPage from './pages/ReadPage'
 import { callAPI } from './utility/fetch-api'
 
 export default function App() {
+  React.useEffect(() => {
+    console.log('App')
+  }, [])
+
   const [user, setUser] = useState<string>()
-  const [authenticated, setAuth] = useState<boolean>(false)
+  const [authenticated, setAuth] = useState<boolean>()
 
   const [articles, setArticle] = useState([])
 
@@ -56,6 +60,14 @@ export default function App() {
     getInfo()
   }, [])
 
+  console.log('auth', authenticated)
+
+  const readPage = React.useMemo(
+    () =>
+      authenticated === undefined ? null : <ReadPage auth={authenticated} />,
+    [authenticated]
+  )
+
   return (
     <Router>
       <header>
@@ -70,23 +82,22 @@ export default function App() {
           ) : null}
         </div>
       </header>
-      <Routes>
-        <Route path="/" element={<Startpage auth={authenticated} />} />
-        <Route
-          path="/signin"
-          element={<Signin getInfo={getInfo} auth={authenticated} />}
-        />
-        <Route path="/signup" element={<Signup auth={authenticated} />} />
-        <Route
-          path="/main"
-          element={<MainPage articles={articles} auth={authenticated} />}
-        />
-        <Route path="/write" element={<WritePage />} />
-        <Route
-          path="/articles/:title"
-          element={<ReadPage auth={authenticated} />}
-        />
-      </Routes>
+      {authenticated === undefined ? null : (
+        <Routes>
+          <Route path="/" element={<Startpage auth={authenticated} />} />
+          <Route
+            path="/signin"
+            element={<Signin getInfo={getInfo} auth={authenticated} />}
+          />
+          <Route path="/signup" element={<Signup auth={authenticated} />} />
+          <Route
+            path="/main"
+            element={<MainPage articles={articles} auth={authenticated} />}
+          />
+          <Route path="/write" element={<WritePage />} />
+          <Route path="/articles/:title" element={readPage} />
+        </Routes>
+      )}
     </Router>
   )
 }
